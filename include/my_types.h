@@ -1,0 +1,17 @@
+/*
+** EPITECH PROJECT, 2024
+** My types
+** File description:
+** My types for the minishell1 project
+*/
+
+#ifndef MY_TYPES_H_
+    #define MY_TYPES_H_
+
+typedef unsigned char uint8_t;
+typedef unsigned short uint16_t;
+typedef unsigned uint32_t;
+typedef unsigned long long uint64_t;
+typedef unsigned char bool_t;
+
+#endif
