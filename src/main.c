@@ -5,9 +5,10 @@
 ** Main
 */
 
+#include "my_macros.h"
 #include "my.h"
 
-int main(int argc, char **argv)
+int main(int argc, UNUSED char **argv)
 {
     if (argc != 1)
         return display_error("Wrong number of arguments\n");
