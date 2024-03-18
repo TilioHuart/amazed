@@ -9,7 +9,7 @@
 #include "my.h"
 #include <stdio.h>
 
-int find_path(char **matrix)
+int find_path(char **matrix, int nb_robots)
 {
     if (matrix == NULL)
         return display_error("Matrix NUll in algo"), FAILURE;
