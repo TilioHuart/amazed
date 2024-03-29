@@ -1,8 +1,8 @@
 ##
 ## EPITECH PROJECT, 2023
-## MAKEFILE
+## makefile
 ## File description:
-## Makefile for my lib
+## Write a Makefile that compiles your libmy.
 ##
 
 SRC	=	my_find_prime_sup.c \
@@ -45,25 +45,25 @@ SRC	=	my_find_prime_sup.c \
 		display_string_colored.c	\
 		clean_format.c
 
+CPPFLAGS	=	-I.
+
 OBJ	=	$(SRC:.c=.o)
 
 NAME	=	libmy.a
 
-all:	$(NAME)
+all:	$(NAME) clean
 
-$(NAME):
-	@gcc -g3 -c $(SRC)
+$(NAME):	$(OBJ)
 	@ar rc $(NAME) $(OBJ)
-	@cp $(NAME) ../
-	@cp my.h ../../include/
 
 clean:
 	@rm -f $(OBJ)
+	@rm -f *~
+	@rm -f *.gcda
+	@rm -f *.gcno
 
 fclean:	clean
-	@rm -rf ../$(NAME)
 	@rm -f $(NAME)
+	@rm -f *.a
 
-re: fclean all
-
-.PHONY: clean fclean all re
+re:	fclean all
