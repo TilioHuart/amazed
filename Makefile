@@ -1,44 +1,46 @@
 ##
 ## EPITECH PROJECT, 2023
-## MAKEFILE
+## make create
 ## File description:
-## Makefile for my lib
+## make
 ##
 
 SRC	=	src/main.c
 
-OBJ	=	$(SRC:.c=.o)
+OBJ = $(SRC:.c=.o)
 
-NAME	=	amazed
+NAME = amazed
 
-CC	=	gcc
+CC = gcc -g
 
-CFLAGS	=	-W -Wall -Wextra -Wpedantic -g
+CFLAGS	=	-I include
+CFLAGS	+=	-W -Wall -Wextra -Wpedantic
 
-CPPFLAGS	=	-I include
+LIB	=	-L lib/my -lmy
 
-LDFLAGS	=	-L lib -lmy
+all: $(NAME)
 
-all:	$(NAME)
-
-$(NAME):	$(OBJ)
+$(NAME): $(OBJ)
 	@make -C lib/my
 	@make clean -C lib/my
-	@$(CC) -o $(NAME) $(OBJ) $(CFLAGS) $(LDFLAGS) $(CPPFLAGS)
+	@$(CC) -o $(NAME) $(OBJ) $(CFLAGS) $(LIB)
 
 clean:
 	@rm -f $(OBJ)
+	@find . -name "*~" -delete
 
-fclean:	clean
-	@make fclean -C lib/my
-	@make fclean -C tests/
+tests_run:
+	@make re -C tests/
+	@make clean -C tests/
+	@./unit_tests
+
+fclean: clean
 	@rm -f $(NAME)
+	@make fclean -C tests/
+	@make fclean -C lib/my
+	@find . -name "*.gcda" -delete
+	@find . -name "*.gcno" -delete
 
 re: fclean all
 
-tests_run:	re
-	@make re -C tests/
-	@make clean -C tests/
-	./unit_tests
-
-.PHONY:	clean fclean re all tests_run
+.PHONY:	all clean fclean re tests_run
