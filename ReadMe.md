@@ -63,6 +63,11 @@ Ensures each room is visited by only one mouse at a time.
 Calculates the shortest path for mice to reach the exit.
 Input file specifies the number of mice, rooms, room connections, tunnels, and moves made by mice.
 
+### Technologies
+
+- <small>[![My Skills](https://skillicons.dev/icons?i=c)](https://skillicons.dev) </small>
+- <small>[![My Skills](https://skillicons.dev/icons?i=github)](https://skillicons.dev) </small>
+
 ## Contributors
 
 - [Jimmy](https://github.com/JimmyRamsamynaick)
