@@ -70,7 +70,8 @@ static char **create_arr(char const *str, char const *delim)
     return arr;
 }
 
-static ssize_t assign_str_to_arr(char **arr, char const *str, char const *delim)
+static
+ssize_t assign_str_to_arr(char **arr, char const *str, char const *delim)
 {
     size_t a = 0;
     size_t y = 0;

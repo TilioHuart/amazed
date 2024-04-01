@@ -27,7 +27,7 @@ static char *assign_str(char *str, char *buf, size_t *k)
     return str;
 }
 
-static char *retrieve_map()
+static char *retrieve_map(void)
 {
     char *buf = NULL;
     char *str = NULL;
