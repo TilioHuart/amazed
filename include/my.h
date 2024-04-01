@@ -8,6 +8,8 @@
 #ifndef MY_H
     #define MY_H
 
+    #include <unistd.h>
+
 int display_string_colored(char const *str, char *color);
 char *my_nbr_to_str(int number);
 int my_putchar(char c);
@@ -41,11 +43,12 @@ int my_showmem(char const *str, int size);
 char *my_strcat(char *dest, char const *src);
 char *my_strncat(char *dest, char const *src, int nb);
 int my_show_word_array(char const **tab);
-char **my_str_to_word_array(char *str);
+char **my_str_to_word_array(char const *str, char const *delim);
 char *my_strdup(char const *src);
 int display_error(char *error);
 char *my_nbr_to_str(int number);
 int my_str_is_alpha_num(char *str);
 char *clean_format(char *str, char *clean);
+void *my_realloc(void *value, size_t size_init, size_t size_final);
 
 #endif

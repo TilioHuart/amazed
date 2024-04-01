@@ -8,35 +8,48 @@
 #include <stdlib.h>
 #include <stddef.h>
 #include <stdio.h>
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <unistd.h>
 #include "my_macros.h"
 #include "my_types.h"
 #include "my.h"
 
-static
-int check_line_info(char *buff)
+static char *assign_str(char *str, char *buf, size_t *k)
 {
-    if (buff == NULL)
-        return FAILURE;
-    if (buff[my_strlen(buff) - 1] == '\n')
-        buff[my_strlen(buff) - 1] = '\0';
+    if (str == NULL) {
+        return NULL;
+    }
+    for (size_t i = 0; buf[i] != '\0'; i += 1) {
+        str[*k] = buf[i];
+        *k += 1;
+    }
+    return str;
+}
+
+static int retrieve_map()
+{
+    char *buf = NULL;
+    char *str = NULL;
+    size_t size_initial = 0;
+    size_t size = 0;
+    size_t k = 0;
+
+    while (getline(&buf, &size, stdin) > 0) {
+        str = my_realloc(str, size_initial, size);
+        size_initial += size;
+        str = assign_str(str, buf, &k);
+    }
+    str[k] = '\0';
+    printf("%s\n", str);
     return SUCCESS;
 }
 
-char **retrieve_info(char **map)
+char **retrieve_info(void)
 {
-    bool_t has_end = FALSE;
-    char *buff = NULL;
-    size_t size = 0;
+    char **matrix = NULL;
 
-    while (!has_end) {
-        if (getline(&buff, &size, stdin) < 0)
-            return NULL;
-        if (check_line_info(buff) == FAILURE)
-            return NULL;
-        if (buff != NULL) {
-            free(buff);
-            buff = NULL;
-        }
-    }
-    return map;
+    if (retrieve_map() == FAILURE)
+        return NULL;
+    return matrix;
 }
