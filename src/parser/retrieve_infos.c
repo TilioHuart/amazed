@@ -27,7 +27,7 @@ static char *assign_str(char *str, char *buf, size_t *k)
     return str;
 }
 
-static int retrieve_map()
+static char *retrieve_map()
 {
     char *buf = NULL;
     char *str = NULL;
@@ -40,16 +40,17 @@ static int retrieve_map()
         size_initial += size;
         str = assign_str(str, buf, &k);
     }
-    str[k] = '\0';
-    printf("%s\n", str);
-    return SUCCESS;
+    if (str != NULL)
+        str[k] = '\0';
+    return str;
 }
 
 char **retrieve_info(void)
 {
     char **matrix = NULL;
+    char **map = my_str_to_word_array(retrieve_map(), "\n");
 
-    if (retrieve_map() == FAILURE)
-        return NULL;
+    for (size_t i = 0; map[i] != NULL; i += 1)
+        printf("%s\n", map[i]);
     return matrix;
 }
