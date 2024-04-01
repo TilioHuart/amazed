@@ -47,9 +47,9 @@ P3-1
 
 ### Usage
 
-    Compile the program using a C compiler, such as GCC.
-    Create an input file named "labyrinth" in the specified format.
-    Run the program, providing the input file as input.
+Compile the program using a C compiler, such as GCC.
+Create an input file named "labyrinth" in the specified format.
+Run the program, providing the input file as input.
 
 ### bash
 ```shell
@@ -58,11 +58,10 @@ make
 ```
 
 ### Features
-
-    Utilizes Dijkstra's algorithm for optimal pathfinding.
-    Ensures each room is visited by only one mouse at a time.
-    Calculates the shortest path for mice to reach the exit.
-    Input file specifies the number of mice, rooms, room connections, tunnels, and moves made by mice.
+ Utilizes Dijkstra's algorithm for optimal pathfinding.
+ Ensures each room is visited by only one mouse at a time.
+ Calculates the shortest path for mice to reach the exit.
+ Input file specifies the number of mice, rooms, room connections, tunnels, and moves made by mice.
 
 ## Contributors
 
