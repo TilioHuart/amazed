@@ -70,7 +70,7 @@ static char **create_arr(char const *str, char const *delim)
     return arr;
 }
 
-static ssize_t assign_str_to_arr(char **arr, char const *str, char *delim)
+static ssize_t assign_str_to_arr(char **arr, char const *str, char const *delim)
 {
     size_t a = 0;
     size_t y = 0;
@@ -93,7 +93,7 @@ static ssize_t assign_str_to_arr(char **arr, char const *str, char *delim)
     return 0;
 }
 
-char **my_str_to_word_arr(char const *str, char *delim)
+char **my_str_to_word_array(char const *str, char const *delim)
 {
     char **arr = NULL;
 
