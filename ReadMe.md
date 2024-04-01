@@ -58,10 +58,10 @@ make
 ```
 
 ### Features
- Utilizes Dijkstra's algorithm for optimal pathfinding.
- Ensures each room is visited by only one mouse at a time.
- Calculates the shortest path for mice to reach the exit.
- Input file specifies the number of mice, rooms, room connections, tunnels, and moves made by mice.
+Utilizes Dijkstra's algorithm for optimal pathfinding.
+Ensures each room is visited by only one mouse at a time.
+Calculates the shortest path for mice to reach the exit.
+Input file specifies the number of mice, rooms, room connections, tunnels, and moves made by mice.
 
 ## Contributors
 
