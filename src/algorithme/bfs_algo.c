@@ -76,6 +76,7 @@ int find_path(map_t *map, path_t *path)
 {
     if (map == NULL || path == NULL)
         return display_error("Structs null in algo\n"), FAILURE;
-    execute_fbs_algorithme(map, path);
+    if (execute_fbs_algorithme(map, path) == FAILURE)
+        return FAILURE;
     return SUCCESS;
 }
