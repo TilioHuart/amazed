@@ -47,10 +47,7 @@ static char *retrieve_map(void)
 
 char **retrieve_info(void)
 {
-    char **matrix = NULL;
     char **map = my_str_to_word_array(retrieve_map(), "\n");
 
-    for (size_t i = 0; map[i] != NULL; i += 1)
-        printf("%s\n", map[i]);
-    return matrix;
+    return map;
 }

@@ -8,6 +8,6 @@
 #ifndef AMAZED_H_
     #define AMAZED_H_
 
-int amazed(char const *const *argv);
+int amazed(void);
 
 #endif

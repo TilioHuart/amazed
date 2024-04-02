@@ -7,14 +7,14 @@
 
 #include "retrieve_infos.h"
 #include "my_macros.h"
+#include "parser.h"
 #include <stdio.h>
 
-int amazed(char const *const *argv)
+int amazed(void)
 {
-    char **matrix = NULL;
+    char **map = parse_map();
 
-    if (argv == NULL)
-        return EPITECH_FAILURE;
-    matrix = retrieve_info();
+    for (size_t i = 0; map[i] != NULL; i += 1)
+        printf("%s\n", map[i]);
     return SUCCESS;
 }

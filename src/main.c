@@ -9,9 +9,9 @@
 #include "my.h"
 #include "amazed.h"
 
-int main(int const argc, char const *const *argv)
+int main(int const argc, UNUSED char const *const *argv)
 {
     if (argc != 1)
         return display_error("Wrong number of arguments\n");
-    return amazed(argv);
+    return amazed();
 }
