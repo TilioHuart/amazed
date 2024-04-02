@@ -17,7 +17,7 @@ int amazed(void)
     map_t *map = malloc(sizeof(map_t));
     char **instruction = parse_map(map);
 
-    for (size_t i = 0; instruction[i] != NULL; i += 1)
-        printf("%s\n", instruction[i]);
+    if (instruction == NULL)
+        return EPITECH_FAILURE;
     return SUCCESS;
 }

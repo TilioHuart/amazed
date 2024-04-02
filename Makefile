@@ -9,6 +9,7 @@ SRC	=	src/main.c
 SRC	+=	src/amazed.c
 SRC	+=	src/parser/parser.c
 SRC	+=	src/parser/retrieve_infos.c
+SRC	+=	src/parser/handle_errors.c
 
 OBJ = $(SRC:.c=.o)
 
