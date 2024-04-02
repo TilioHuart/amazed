@@ -6,9 +6,10 @@
 */
 
 #include "my_macros.h"
+#include "map.h"
 #include "retrieve_infos.h"
 
-char **parse_map(void)
+char **parse_map(map_t *map)
 {
     char **map = retrieve_info();
 

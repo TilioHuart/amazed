@@ -8,13 +8,16 @@
 #include "retrieve_infos.h"
 #include "my_macros.h"
 #include "parser.h"
+#include "map.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 int amazed(void)
 {
-    char **map = parse_map();
+    map_t *map = malloc(sizeof(map_t));
+    char **instruction = parse_map(map);
 
-    for (size_t i = 0; map[i] != NULL; i += 1)
-        printf("%s\n", map[i]);
+    for (size_t i = 0; instruction[i] != NULL; i += 1)
+        printf("%s\n", instruction[i]);
     return SUCCESS;
 }

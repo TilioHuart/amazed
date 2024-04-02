@@ -12,6 +12,6 @@ typedef struct map {
     char *name;
     struct map **link;
     struct map *next;
-}
+} map_t;
 
 #endif

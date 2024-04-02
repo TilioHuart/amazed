@@ -8,6 +8,8 @@
 #ifndef PARSER_H_
     #define PARSER_H_
 
-char **parse_map(void);
+    #include "map.h"
+
+char **parse_map(map_t *map);
 
 #endif
