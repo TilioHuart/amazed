@@ -13,6 +13,7 @@ typedef struct path_s {
     char *end_room;
     char **shortest_path;
     char **current_path;
+    int shortest_path_length;
     int current_room_number;
 } path_t; 
 
