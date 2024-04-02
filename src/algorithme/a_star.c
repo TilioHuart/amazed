@@ -16,9 +16,9 @@ int find_path_loop(char **matrix)
     return SUCCESS;
 }
 
-int find_path(char **matrix, int nb_robots)
+int find_path(char **matrix, UNUSED int nb_robots)
 {
     if (matrix == NULL)
-        return display_error("Matrix NUll in algo"), FAILURE;
+        return display_error("Matrix NULL in algo\n"), FAILURE;
     return SUCCESS;
 }
