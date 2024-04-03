@@ -8,11 +8,28 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "my_alloc.h"
 #include "amazed.h"
 #include "map.h"
 #include "my_macros.h"
 #include "my.h"
 #include "my_types.h"
+
+static
+void update_current_path(map_t *map, path_t *path)
+{
+    size_t number_room = 0;
+
+    if (map == NULL || path == NULL)
+        return;
+    number_room = path->current_room_number;
+    path->current_path = my_realloc(path->current_path,
+        sizeof(char *) * number_room,
+        sizeof(char *) * number_room + 1);
+    path->current_path[number_room - 1] = my_strdup(map->name);
+    path->current_path[number_room] = NULL;
+    path->current_room_number += 1;
+}
 
 static
 void change_shortest_path(path_t *path)
@@ -47,6 +64,7 @@ int check_shortest_path(path_t *path, map_t *map)
         }
         if (my_strcmp(path->shortest_path[index], map->name) == 0 &&
             path->current_room_number < index)
+            change_shortest_path(path);
             break;
     }
     return SUCCESS;
@@ -58,15 +76,16 @@ int execute_fbs_algorithme(map_t *map, path_t *path)
     if (map == NULL)
         return FAILURE;
     for (size_t i = 0; map->link[i] != NULL; i += 1) {
+        if (my_strcmp(map->link[i]->name, path->end_room) == 0) {
+            change_shortest_path(path);
+            return SUCCESS;
+        }
         if (my_strcmp(map->link[i]->name, path->end_room) != 0) {
             if (check_shortest_path(path, map->link[i]) == FAILURE) {
                 return FAILURE;
             }
             execute_fbs_algorithme(map->link[i], path);
             continue;
-        }
-        if (my_strcmp(map->link[i]->name, path->end_room) == 0) {
-            change_shortest_path(path);
         }
     }
     return SUCCESS;

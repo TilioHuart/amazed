@@ -56,6 +56,7 @@ all:	$(NAME) clean
 
 $(NAME):	$(OBJ)
 	@ar rc $(NAME) $(OBJ)
+	mv $(NAME) ..
 
 clean:
 	@rm -f $(OBJ)

@@ -20,13 +20,15 @@ CC = gcc -g
 CFLAGS	=	-I include
 CFLAGS	+=	-W -Wall -Wextra -Wpedantic
 
-LIB	=	-L lib/my -lmy
+LIB	=	-L lib -lmy -lmy_alloc
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
 	@make -C lib/my
+	@make -C lib/my_alloc
 	@make clean -C lib/my
+	@make clean -C lib/my_alloc
 	@$(CC) -o $(NAME) $(OBJ) $(CFLAGS) $(LIB)
 
 clean:

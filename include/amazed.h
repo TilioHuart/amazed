@@ -16,7 +16,7 @@ typedef struct path_s {
     char **current_path;
     size_t shortest_path_length;
     size_t current_room_number;
-} path_t; 
+} path_t;
 
 int amazed(void);
 
