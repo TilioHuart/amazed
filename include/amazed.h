@@ -8,6 +8,13 @@
 #ifndef AMAZED_H_
     #define AMAZED_H_
 
+typedef struct info {
+    int robots;
+    int rooms;
+    int link;
+    int nb_rooms;
+} info_t;
+
 typedef struct path_s {
     char *start_room;
     char *end_room;
