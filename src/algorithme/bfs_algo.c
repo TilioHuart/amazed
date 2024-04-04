@@ -15,89 +15,75 @@
 #include "my.h"
 #include "my_types.h"
 
-static
-void update_current_path(map_t *map, path_t *path)
-{
-    size_t number_room = 0;
+typedef struct encountered_room_s {
+    map_t *map;
+    struct encountered_room_s *next;
+} encountered_room_t;
 
-    if (map == NULL || path == NULL)
-        return;
-    number_room = path->current_room_number;
-    path->current_path = my_realloc(path->current_path,
-        sizeof(char *) * number_room,
-        sizeof(char *) * number_room + 1);
-    path->current_path[number_room - 1] = my_strdup(map->name);
-    path->current_path[number_room] = NULL;
-    path->current_room_number += 1;
+typedef struct room_queue_s {
+    map_t *map;
+    struct room_queue *next;
+} room_queue_t;
+
+static
+int check_visited(map_t const *map, encountered_room_t *visited)
+{
+    if (map == NULL) {
+        display_error("Unable to check map\n");
+        return FALSE;
+    }
+    if (visited == NULL) {
+        display_error("Unable to check visited\n");
+        return FALSE;
+    }
+    while (visited != NULL) {
+        if (my_strcmp(visited->map->name, map->name) == 0)
+            return TRUE;
+        visited = visited->next;
+    }
+    return FALSE;
 }
 
 static
-void change_shortest_path(path_t *path)
+int add_visited_room(encountered_room_t *visited, map_t *current_room)
 {
-    if (path == NULL)
-        return;
-    if (path->current_room_number > path->shortest_path_length)
-        return;
-    if (path->shortest_path == NULL) {
-        path->shortest_path = path->current_path;
-        return;
+    if (visited == NULL || current_room == NULL) {
+        return display_error("Unable to retrieve the visited room\n");
     }
-    for (size_t i = 0; path->shortest_path[i] != NULL; i += 1) {
-        free(path->shortest_path[i]);
-    }
-    free(path->shortest_path);
-    path->shortest_path = path->current_path;
-    path->current_path = NULL;
-}
-
-static
-int check_shortest_path(path_t *path, map_t *map)
-{
-    size_t index = 0;
-
-    if (path == NULL || map == NULL)
+    if (visited->map == NULL) {
+        visited->map = current_room;
+        visited->next = NULL;
         return FAILURE;
-    for (index = 0; path->shortest_path[index] != NULL; index += 1) {
-        if (my_strcmp(path->shortest_path[index], map->name) == 0 &&
-            path->current_room_number >= index) {
-            return FAILURE;
-        }
-        if (my_strcmp(path->shortest_path[index], map->name) == 0 &&
-            path->current_room_number < index) {
-            change_shortest_path(path);
-            break;
-        }
     }
-    update_current_path(map, path);
+    while (visited->next != NULL) {
+        visited = visited->next;
+    }
+    visited->next = malloc(sizeof(encountered_room_t));
+    if (visited->next == NULL)
+        return display_error("Unable to add visited room\n");
+    visited->next->map = current_room;
+    visited->next->next = NULL;
     return SUCCESS;
 }
 
-static
-int execute_fbs_algorithme(map_t *map, path_t *path)
+int execute_bfs(map_t *map, char const *end_room)
 {
-    if (map == NULL)
-        return FAILURE;
+    encountered_room_t *visited = NULL;
+
+    visited = malloc(sizeof(encountered_room_t));
+    if (visited == NULL)
+        return display_error("Unable to allocate memory\n");
+    visited->map = NULL;
+    visited->next = NULL;
+    if (end_room == NULL || map == NULL)
+        return display_error("Struct null for algorithme\n");
+    if (map->name == NULL || map->link == NULL)
+        return display_error("Unable to access the room info\n");
     for (size_t i = 0; map->link[i] != NULL; i += 1) {
-        if (my_strcmp(map->link[i]->name, path->end_room) == 0) {
-            change_shortest_path(path);
-            return SUCCESS;
-        }
-        if (my_strcmp(map->link[i]->name, path->end_room) != 0) {
-            if (check_shortest_path(path, map->link[i]) == FAILURE) {
-                return FAILURE;
-            }
-            execute_fbs_algorithme(map->link[i], path);
+        if (check_visited(map->link[i], visited) == TRUE)
             continue;
-        }
+        if (add_visited_room(visited, map->link[i]) == FAILURE)
+            continue;
     }
-    return SUCCESS;
-}
-
-int find_path(map_t *map, path_t *path)
-{
-    if (map == NULL || path == NULL)
-        return display_error("Structs null in algo\n"), FAILURE;
-    if (execute_fbs_algorithme(map, path) == FAILURE)
-        return FAILURE;
     return SUCCESS;
 }
