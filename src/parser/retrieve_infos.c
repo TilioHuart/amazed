@@ -15,18 +15,6 @@
 #include "my_types.h"
 #include "my.h"
 
-static char *assign_str(char *str, char *buf, size_t *k)
-{
-    if (str == NULL) {
-        return NULL;
-    }
-    for (size_t i = 0; buf[i] != '\0'; i += 1) {
-        str[*k] = buf[i];
-        *k += 1;
-    }
-    return str;
-}
-
 static char **retrieve_map(void)
 {
     char *buf = NULL;
