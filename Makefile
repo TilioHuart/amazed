@@ -12,6 +12,7 @@ SRC	+=	src/parser/retrieve_infos.c
 SRC	+=	src/parser/handle_errors.c
 SRC +=	src/linked_list/function_list.c
 SRC	+=	src/linked_list/create_list.c
+SRC	+=	src/linked_list/comment_handling.c
 
 OBJ = $(SRC:.c=.o)
 

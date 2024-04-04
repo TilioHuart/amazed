@@ -26,6 +26,8 @@ char **parse_map(map_t *map, info_t *info)
     info->size_initial = 0;
     info->size_final = 16;
     info->nb_rooms = 0;
+    info->start = FALSE;
+    info->end = FALSE;
     if (handle_errors(map, instruction, info) == FAILURE)
         return NULL;
     return instruction;

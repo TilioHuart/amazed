@@ -9,6 +9,7 @@
 #include "my_macros.h"
 #include "my.h"
 #include "amazed.h"
+#include "comment_handling.h"
 #include <stdlib.h>
 
 static int check_link(char **room, size_t *i, size_t *j, int **link)
@@ -74,24 +75,6 @@ static int print_rooms(char *instruction, info_t *info)
     return SUCCESS;
 }
 
-static int handle_comment(char *instruction, info_t *info)
-{
-    if (my_strncmp(instruction, "##", 2) == 0 &&
-        my_strcmp(instruction, "##start") != 0 &&
-        my_strcmp(instruction, "##end") != 0)
-        return 1;
-    if (my_strcmp(instruction, "##start") == 0 ||
-        my_strcmp(instruction, "##end") == 0) {
-            info->nb_rooms += 1;
-            if (info->nb_rooms == 1)
-                write(1, "#rooms\n", my_strlen("#rooms\n"));
-            write(1, instruction, my_strlen(instruction));
-            write(1, "\n", 1);
-            return 1;
-        }
-    return SUCCESS;
-}
-
 static void handle_first_room(map_t *map, info_t *info, char **room)
 {
     if (map == NULL || info == NULL || room == NULL || room[0] == NULL)
@@ -142,17 +125,38 @@ static int retrieve_room(char **room, map_t *map, info_t *info)
     return SUCCESS;
 }
 
+static int handle_start_end(info_t *info, char **room)
+{
+    if (info == NULL || room == NULL || room[0] == NULL)
+        return FAILURE;
+    if (info->start == TRUE) {
+        info->start_name = my_strdup(room[0]);
+        info->start += 1;
+        return SUCCESS;
+    }
+    if (info->end == TRUE) {
+        info->end_name = my_strdup(room[0]);
+        info->end += 1;
+        return SUCCESS;
+    }
+    return SUCCESS;
+}
+
 int adding_rooms(map_t *map, char *instruction, info_t *info)
 {
     char **room = NULL;
+    size_t error = 0;
 
     if (map == NULL || instruction == NULL)
         return FAILURE;
-    if (handle_comment(instruction, info) == 1)
+    if (handle_comment(instruction, info, &error) == 1)
         return SUCCESS;
+    if (error != 0)
+        return FAILURE;
     room = my_str_to_word_array(instruction, " ");
     if (handle_room(room, info) == FAILURE)
         return FAILURE;
+    handle_start_end(info, room);
     info->nb_rooms += 1;
     if (info->rooms != TRUE)
         retrieve_room(room, map, info);
