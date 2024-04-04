@@ -42,7 +42,7 @@ static int handle_room(char **room, info_t *info)
             return SUCCESS;
         }
     }
-    if (i < 3)
+    if (i != 3)
         return FAILURE;
     return SUCCESS;
 }
