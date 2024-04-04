@@ -98,14 +98,18 @@ int execute_bfs(map_t *map, char const *end_room)
     if (map->name == NULL || map->link == NULL)
         return display_error("Unable to access the room info\n");
     while (queue != NULL) {
-        for (size_t i = 0; map->link[i] != NULL; i += 1) {
-            if (check_visited(map->link[i], visited) == TRUE)
+        for (size_t i = 0; queue->map->link[i] != NULL; i += 1) {
+            if (check_visited(queue->map->link[i], visited) == TRUE)
                 continue;
-            if (add_visited_room(visited, map->link[i]) == FAILURE)
+            if (add_visited_room(visited, queue->map->link[i]) == FAILURE)
                 return FAILURE;
+            if (my_strcmp(queue->map->link[i]->name, end_room))
+                return SUCCESS;
             add_room_to_queue(queue, map->link[i]);
         }
         queue = queue->next;
     }
     return SUCCESS;
 }
+
+
