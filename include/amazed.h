@@ -9,7 +9,6 @@
     #define AMAZED_H_
     #include <stddef.h>
 
-<<<<<<< HEAD
 typedef struct path_s {
     char *start_room;
     char *end_room;
@@ -19,8 +18,6 @@ typedef struct path_s {
     size_t current_room_number;
 } path_t;
 
-=======
->>>>>>> 718f5b90eae09003368050a853da7e1a60ff56b4
 typedef struct info {
     char **rooms_name;
     char *start_name;
