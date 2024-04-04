@@ -63,10 +63,12 @@ int check_shortest_path(path_t *path, map_t *map)
             return FAILURE;
         }
         if (my_strcmp(path->shortest_path[index], map->name) == 0 &&
-            path->current_room_number < index)
+            path->current_room_number < index) {
             change_shortest_path(path);
             break;
+        }
     }
+    update_current_path(map, path);
     return SUCCESS;
 }
 

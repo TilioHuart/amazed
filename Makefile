@@ -11,6 +11,7 @@ SRC	+=	src/parser/parser.c
 SRC	+=	src/parser/retrieve_infos.c
 SRC	+=	src/parser/handle_errors.c
 SRC +=	src/linked_list/function_list.c
+SRC	+=	src/algorithme/bfs_algo.c
 
 OBJ = $(SRC:.c=.o)
 
