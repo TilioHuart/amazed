@@ -10,6 +10,6 @@
 
     #include "amazed.h"
 
-int handle_errors(map_t *map, char **instruction, info_t *info);
+int handle_robots_rooms(map_t *map, char **instruction, info_t *info);
 
 #endif

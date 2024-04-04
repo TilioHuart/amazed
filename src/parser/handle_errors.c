@@ -27,7 +27,7 @@ static int check_nb_robots(char **instruction)
     return SUCCESS;
 }
 
-int handle_errors(map_t *map, char **instruction, info_t *info)
+int handle_robots_rooms(map_t *map, char **instruction, info_t *info)
 {
     if (instruction == NULL)
         return EPITECH_FAILURE;

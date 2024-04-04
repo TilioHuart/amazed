@@ -37,7 +37,9 @@ char **parse_map(map_t *map, info_t *info)
 
     if (initialise_info(info) == FAILURE)
         return NULL;
-    if (handle_errors(map, instruction, info) == FAILURE)
+    if (handle_robots_rooms(map, instruction, info) == FAILURE)
+        return NULL;
+    if (info->nb_rooms == 0 || info->start == FALSE || info->end == FALSE)
         return NULL;
     return instruction;
 }
