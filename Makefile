@@ -11,8 +11,12 @@ SRC	+=	src/parser/parser.c
 SRC	+=	src/parser/retrieve_infos.c
 SRC	+=	src/parser/handle_errors.c
 SRC +=	src/linked_list/function_list.c
+<<<<<<< HEAD
 SRC	+=	src/linked_list/create_list.c
 SRC	+=	src/linked_list/comment_handling.c
+=======
+SRC	+=	src/algorithme/bfs_algo.c
+>>>>>>> feature/algo
 
 OBJ = $(SRC:.c=.o)
 
