@@ -57,6 +57,25 @@ int add_visited_room(encountered_room_t *visited, map_t *current_room)
     return SUCCESS;
 }
 
+static
+int add_room_to_queue(room_queue_t *queue, map_t *room)
+{
+    if (queue == NULL)
+        return display_error("Unable to load queue\n");
+    while (queue->next != NULL)
+        queue = queue->next;
+    if (queue->map == NULL) {
+        queue->map = room;
+        return SUCCESS;
+    }
+    queue->next = malloc(sizeof(room_queue_t));
+    if (queue->next == NULL)
+        return display_error("Unable to add another room to queue\n");
+    queue->next->map = room;
+    queue->next->next = NULL;
+    return SUCCESS;
+}
+
 int execute_bfs(map_t *map, char const *end_room)
 {
     encountered_room_t *visited = NULL;
@@ -74,15 +93,19 @@ int execute_bfs(map_t *map, char const *end_room)
         free(visited);
         return display_error("Unable to allocate queue memory\n");
     }
+    queue->map = map;
+    queue->next = NULL;
     if (map->name == NULL || map->link == NULL)
         return display_error("Unable to access the room info\n");
-    while (visited != NULL) {
+    while (queue != NULL) {
         for (size_t i = 0; map->link[i] != NULL; i += 1) {
             if (check_visited(map->link[i], visited) == TRUE)
                 continue;
             if (add_visited_room(visited, map->link[i]) == FAILURE)
-                continue;
+                return FAILURE;
+            add_room_to_queue(queue, map->link[i]);
         }
+        queue = queue->next;
     }
     return SUCCESS;
 }

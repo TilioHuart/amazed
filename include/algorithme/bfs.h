@@ -16,7 +16,7 @@ typedef struct encountered_room_s {
 
 typedef struct room_queue_s {
     map_t *map;
-    struct room_queue *next;
+    struct room_queue_s *next;
 } room_queue_t;
 
 #endif
