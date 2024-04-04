@@ -27,27 +27,31 @@ static char *assign_str(char *str, char *buf, size_t *k)
     return str;
 }
 
-static char *retrieve_map(void)
+static char **retrieve_map(void)
 {
     char *buf = NULL;
-    char *str = NULL;
+    char **arr = NULL;
     size_t size_initial = 0;
     size_t size = 0;
+    size_t size_final = 0;
     size_t k = 0;
 
     while (getline(&buf, &size, stdin) > 0) {
-        str = my_realloc(str, size_initial, size);
-        size_initial += size;
-        str = assign_str(str, buf, &k);
+        size_final += 8;
+        arr = my_realloc(arr, size_initial, size_final);
+        size_initial = size_final;
+        arr[k] = my_strdup(buf);
+        arr[k] = string_format(arr[k], "\n");
+        k += 1;
     }
-    if (str != NULL)
-        str[k] = '\0';
-    return str;
+    arr = my_realloc(arr, size_initial, size_final + 8);
+    arr[k] = NULL;
+    return arr;
 }
 
 char **retrieve_info(void)
 {
-    char **map = my_str_to_word_array(retrieve_map(), "\n");
+    char **map = retrieve_map();
 
     return map;
 }

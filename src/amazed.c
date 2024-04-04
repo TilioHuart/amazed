@@ -17,7 +17,7 @@
 int amazed(void)
 {
     map_t *map = create_map();
-    info_t *info = malloc(sizeof(info));
+    info_t *info = malloc(sizeof(info_t));
     char **instruction = parse_map(map, info);
 
     if (instruction == NULL)

@@ -50,5 +50,6 @@ char *my_nbr_to_str(int number);
 int my_str_is_alpha_num(char *str);
 char *clean_format(char *str, char *clean);
 void *my_realloc(void *value, size_t size_init, size_t size_final);
+char *string_format(char *str, char *clean);
 
 #endif

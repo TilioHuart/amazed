@@ -8,13 +8,6 @@
 #ifndef AMAZED_H_
     #define AMAZED_H_
 
-typedef struct info {
-    int robots;
-    int rooms;
-    int link;
-    int nb_rooms;
-} info_t;
-
 typedef struct path_s {
     char *start_room;
     char *end_room;
@@ -23,6 +16,13 @@ typedef struct path_s {
     int shortest_path_length;
     int current_room_number;
 } path_t; 
+
+typedef struct info {
+    int robots;
+    int rooms;
+    int link;
+    int nb_rooms;
+} info_t;
 
 int amazed(void);
 
