@@ -76,6 +76,23 @@ int add_room_to_queue(room_queue_t *queue, map_t *room)
     return SUCCESS;
 }
 
+static
+int check_linked_room(map_t *map, room_queue_t *queue,
+    encountered_room_t *visited, char const *end_room)
+{
+    for (size_t i = 0; queue->map->link[i] != NULL; i += 1) {
+        if (check_visited(queue->map->link[i], visited) == TRUE)
+            continue;
+        if (add_visited_room(visited, queue->map->link[i]) == FAILURE)
+            return FAILURE;
+        if (my_strcmp(queue->map->link[i]->name, end_room))
+            return SUCCESS;
+        add_room_to_queue(queue, map->link[i]);
+    }
+    return FAILURE;
+}
+
+static
 int execute_bfs(map_t *map, encountered_room_t *visited,
     room_queue_t *queue, char const *end_room)
 {
@@ -83,21 +100,14 @@ int execute_bfs(map_t *map, encountered_room_t *visited,
         visited == NULL || queue == NULL || end_room == NULL)
         return display_error("Unable to access the room info\n");
     while (queue != NULL) {
-        for (size_t i = 0; queue->map->link[i] != NULL; i += 1) {
-            if (check_visited(queue->map->link[i], visited) == TRUE)
-                continue;
-            if (add_visited_room(visited, queue->map->link[i]) == FAILURE)
-                return FAILURE;
-            if (my_strcmp(queue->map->link[i]->name, end_room))
-                return SUCCESS;
-            add_room_to_queue(queue, map->link[i]);
-        }
+        if (check_linked_room(map, queue, visited, end_room) == SUCCESS)
+            return SUCCESS;
         queue = queue->next;
     }
     return SUCCESS;
 }
 
-room_queue_t *get_shortest_path(map_t *map, const char *end_room)
+int get_shortest_path(map_t *map, const char *end_room)
 {
     encountered_room_t *visited = NULL;
     room_queue_t *queue = NULL;
@@ -116,6 +126,5 @@ room_queue_t *get_shortest_path(map_t *map, const char *end_room)
     }
     queue->map = map;
     queue->next = NULL;
-    execute_bfs(map, visited, queue, end_room);
-    return queue;
+    return execute_bfs(map, visited, queue, end_room);
 }
