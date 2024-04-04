@@ -12,12 +12,13 @@
 #include "amazed.h"
 #include "my.h"
 #include "linked_list.h"
+#include "link_handling.h"
 #include <stdio.h>
 
-char **parse_map(map_t *map, info_t *info)
+static int initialise_info(info_t *info)
 {
-    char **instruction = retrieve_info();
-
+    if (info == NULL)
+        return FAILURE;
     info->link = FALSE;
     info->rooms = FALSE;
     info->robots = FALSE;
@@ -28,7 +29,20 @@ char **parse_map(map_t *map, info_t *info)
     info->nb_rooms = 0;
     info->start = FALSE;
     info->end = FALSE;
-    if (handle_errors(map, instruction, info) == FAILURE)
+    return SUCCESS;
+}
+
+char **parse_map(map_t *map, info_t *info)
+{
+    char **instruction = retrieve_info();
+
+    if (initialise_info(info) == FAILURE)
+        return NULL;
+    if (handle_robots_rooms(map, instruction, info) == FAILURE)
+        return NULL;
+    if (info->nb_rooms == 0 || info->start == FALSE || info->end == FALSE)
+        return NULL;
+    if (handle_link(map, instruction) == FAILURE)
         return NULL;
     return instruction;
 }

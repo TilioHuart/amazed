@@ -10,6 +10,7 @@
 #include "my.h"
 #include "amazed.h"
 #include "comment_handling.h"
+#include "coordinate_handling.h"
 #include <stdlib.h>
 
 static int check_link(char **room, size_t *i, size_t *j, int **link)
@@ -154,7 +155,8 @@ int adding_rooms(map_t *map, char *instruction, info_t *info)
     if (error != 0)
         return FAILURE;
     room = my_str_to_word_array(instruction, " ");
-    if (handle_room(room, info) == FAILURE)
+    if (handle_room(room, info) == FAILURE ||
+        handle_coordinate(room) == FAILURE)
         return FAILURE;
     handle_start_end(info, room);
     info->nb_rooms += 1;
