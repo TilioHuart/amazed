@@ -19,6 +19,10 @@ typedef struct path_s {
 } path_t;
 
 typedef struct info {
+    char **rooms_name;
+    size_t i;
+    size_t size_initial;
+    size_t size_final;
     int robots;
     int rooms;
     int link;

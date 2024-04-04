@@ -10,6 +10,8 @@
 
 typedef struct map {
     char *name;
+    char *x;
+    char *y;
     struct map **link;
     struct map *next;
 } map_t;

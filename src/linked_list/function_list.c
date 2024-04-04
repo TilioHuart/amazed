@@ -47,10 +47,25 @@ static int handle_room(char **room, info_t *info)
     return SUCCESS;
 }
 
+static int check_same_name(info_t *info, size_t i)
+{
+    for (size_t j = i + 1; info->rooms_name[j] != NULL; j += 1) {
+        if (my_strcmp(info->rooms_name[i], info->rooms_name[j]) == 0) {
+            return FAILURE;
+        }
+    }
+    return SUCCESS;
+}
+
 static int print_rooms(char *instruction, info_t *info)
 {
+    if (info->rooms_name == NULL)
+        return FAILURE;
+    for (size_t i = 0; info->rooms_name[i] != NULL; i += 1) {
+        if (check_same_name(info, i) == FAILURE)
+            return FAILURE;
+    }
     if (info->rooms != TRUE) {
-        info->nb_rooms += 1;
         if (info->nb_rooms == 1)
             write(1, "#rooms\n", my_strlen("#rooms\n"));
         write(1, instruction, my_strlen(instruction));
@@ -77,17 +92,53 @@ static int handle_comment(char *instruction, info_t *info)
     return SUCCESS;
 }
 
-static int retrieve_room(char **room, map_t *map)
+static void handle_first_room(map_t *map, info_t *info, char **room)
+{
+    if (map == NULL || info == NULL || room == NULL || room[0] == NULL)
+        return;
+    map->name = room[0];
+    info->rooms_name = my_realloc(info->rooms_name,
+        info->size_initial, info->size_final);
+    info->size_initial = info->size_final;
+    info->size_final += 8;
+    info->rooms_name[info->i] = my_strdup(room[0]);
+    info->i += 1;
+    info->rooms_name[info->i] = NULL;
+    map->x = my_strdup(room[1]);
+    map->y = my_strdup(room[2]);
+}
+
+static
+void handle_other_rooms(map_t *map, info_t *info, map_t *tmp, char **room)
+{
+    map->next = tmp;
+    tmp->name = my_strdup(room[0]);
+    info->rooms_name = my_realloc(info->rooms_name,
+        info->size_initial, info->size_final);
+    info->size_initial = info->size_final;
+    info->size_final += 8;
+    info->rooms_name[info->i] = my_strdup(room[0]);
+    info->i += 1;
+    info->rooms_name[info->i] = NULL;
+    tmp->x = my_strdup(room[1]);
+    tmp->y = my_strdup(room[2]);
+    tmp->next = NULL;
+}
+
+static int retrieve_room(char **room, map_t *map, info_t *info)
 {
     map_t *tmp = malloc(sizeof(map_t));
 
-    if (room == NULL || *room == NULL || map == NULL)
+    if (room == NULL || *room == NULL || map == NULL ||
+        room[1] == NULL || room[2] == NULL)
         return FAILURE;
+    if (info->nb_rooms == 1) {
+        handle_first_room(map, info, room);
+        return SUCCESS;
+    }
     while (map->next != NULL)
         map = map->next;
-    map->next = tmp;
-    tmp->name = my_strdup(room[0]);
-    tmp->next = NULL;
+    handle_other_rooms(map, info, tmp, room);
     return SUCCESS;
 }
 
@@ -102,18 +153,10 @@ int adding_rooms(map_t *map, char *instruction, info_t *info)
     room = my_str_to_word_array(instruction, " ");
     if (handle_room(room, info) == FAILURE)
         return FAILURE;
-    print_rooms(instruction, info);
+    info->nb_rooms += 1;
     if (info->rooms != TRUE)
-        retrieve_room(room, map);
+        retrieve_room(room, map, info);
+    if (print_rooms(instruction, info) == FAILURE)
+        return FAILURE;
     return SUCCESS;
-}
-
-map_t *create_map(void)
-{
-    map_t *map = malloc(sizeof(map_t));
-
-    map->name = NULL;
-    map->link = NULL;
-    map->next = NULL;
-    return map;
 }
