@@ -77,7 +77,7 @@ int add_room_to_queue(room_queue_t *queue, map_t *room)
 }
 
 static
-int check_linked_room(map_t *map, room_queue_t *queue,
+int check_linked_room(room_queue_t *queue,
     encountered_room_t *visited, char const *end_room)
 {
     for (size_t i = 0; queue->map->link[i] != NULL; i += 1) {
@@ -87,20 +87,20 @@ int check_linked_room(map_t *map, room_queue_t *queue,
             return FAILURE;
         if (my_strcmp(queue->map->link[i]->name, end_room))
             return SUCCESS;
-        add_room_to_queue(queue, map->link[i]);
+        add_room_to_queue(queue, queue->map->link[i]);
     }
     return FAILURE;
 }
 
 static
-int execute_bfs(map_t *map, encountered_room_t *visited,
+int execute_bfs(encountered_room_t *visited,
     room_queue_t *queue, char const *end_room)
 {
-    if (map == NULL || map->name == NULL || map->link == NULL ||
-        visited == NULL || queue == NULL || end_room == NULL)
+    if (queue == NULL || queue->map == NULL || queue->map->name == NULL
+        || queue->map->link == NULL || visited == NULL || end_room == NULL)
         return display_error("Unable to access the room info\n");
     while (queue != NULL) {
-        if (check_linked_room(map, queue, visited, end_room) == SUCCESS)
+        if (check_linked_room(queue, visited, end_room) == SUCCESS)
             return SUCCESS;
         queue = queue->next;
     }
@@ -126,5 +126,5 @@ int get_shortest_path(map_t *map, const char *end_room)
     }
     queue->map = map;
     queue->next = NULL;
-    return execute_bfs(map, visited, queue, end_room);
+    return execute_bfs(visited, queue, end_room);
 }
