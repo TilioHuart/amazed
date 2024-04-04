@@ -1,44 +1,58 @@
 ##
 ## EPITECH PROJECT, 2023
-## MAKEFILE
+## make create
 ## File description:
-## Makefile for my lib
+## make
 ##
 
 SRC	=	src/main.c
+SRC	+=	src/amazed.c
+SRC	+=	src/parser/parser.c
+SRC	+=	src/parser/retrieve_infos.c
+SRC	+=	src/parser/handle_errors.c
+SRC +=	src/linked_list/function_list.c
+SRC	+=	src/linked_list/create_list.c
+SRC	+=	src/linked_list/comment_handling.c
+SRC	+=	src/linked_list/coordinate_handling.c
+SRC	+=	src/linked_list/link_handling.c
+SRC	+=	src/algorithme/bfs_algo.c
 
-OBJ	=	$(SRC:.c=.o)
+OBJ = $(SRC:.c=.o)
 
-NAME	=	amazed
+NAME = amazed
 
-CC	=	gcc
+CC = gcc -g
 
-CFLAGS	=	-W -Wall -Wextra -Wpedantic -g
+CFLAGS	=	-I include
+CFLAGS	+=	-W -Wall -Wextra -Wpedantic
 
-CPPFLAGS	=	-I include
+LIB	=	-L lib -lmy -lmy_alloc
 
-LDFLAGS	=	-L lib -lmy
+all: $(NAME)
 
-all:	$(NAME)
-
-$(NAME):	$(OBJ)
+$(NAME): $(OBJ)
 	@make -C lib/my
+	@make -C lib/my_alloc
 	@make clean -C lib/my
-	@$(CC) -o $(NAME) $(OBJ) $(CFLAGS) $(LDFLAGS) $(CPPFLAGS)
+	@make clean -C lib/my_alloc
+	@$(CC) -o $(NAME) $(OBJ) $(CFLAGS) $(LIB)
 
 clean:
 	@rm -f $(OBJ)
+	@find . -name "*~" -delete
 
-fclean:	clean
-	@make fclean -C lib/my
-	@make fclean -C tests/
+tests_run:
+	@make re -C tests/
+	@make clean -C tests/
+	@./unit_tests
+
+fclean: clean
 	@rm -f $(NAME)
+	@make fclean -C tests/
+	@make fclean -C lib/my
+	@find . -name "*.gcda" -delete
+	@find . -name "*.gcno" -delete
 
 re: fclean all
 
-tests_run:	re
-	@make re -C tests/
-	@make clean -C tests/
-	./unit_tests
-
-.PHONY:	clean fclean re all tests_run
+.PHONY:	all clean fclean re tests_run

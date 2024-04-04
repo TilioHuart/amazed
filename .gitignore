@@ -11,3 +11,8 @@ coding-style-reports.log
 vgcore*
 unit_tests
 bonus
+generator.pl
+map1
+map2
+map3
+.vscode
