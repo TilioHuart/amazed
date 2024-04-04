@@ -12,6 +12,7 @@
 #include "amazed.h"
 #include "my.h"
 #include "linked_list.h"
+#include "link_handling.h"
 #include <stdio.h>
 
 static int initialise_info(info_t *info)
@@ -40,6 +41,8 @@ char **parse_map(map_t *map, info_t *info)
     if (handle_robots_rooms(map, instruction, info) == FAILURE)
         return NULL;
     if (info->nb_rooms == 0 || info->start == FALSE || info->end == FALSE)
+        return NULL;
+    if (handle_link(map, instruction) == FAILURE)
         return NULL;
     return instruction;
 }
