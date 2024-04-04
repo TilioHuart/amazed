@@ -10,6 +10,7 @@ SRC	+=	src/amazed.c
 SRC	+=	src/parser/parser.c
 SRC	+=	src/parser/retrieve_infos.c
 SRC	+=	src/parser/handle_errors.c
+SRC +=	src/linked_list/function_list.c
 
 OBJ = $(SRC:.c=.o)
 

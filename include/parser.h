@@ -9,7 +9,8 @@
     #define PARSER_H_
 
     #include "map.h"
+    #include "amazed.h"
 
-char **parse_map(map_t *map);
+char **parse_map(map_t *map, info_t *info);
 
 #endif

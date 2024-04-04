@@ -8,6 +8,8 @@
 #ifndef HANDLE_ERRORS_H_
     #define HANDLE_ERRORS_H_
 
-int handle_errors(map_t *map, char **instruction);
+    #include "amazed.h"
+
+int handle_errors(map_t *map, char **instruction, info_t *info);
 
 #endif

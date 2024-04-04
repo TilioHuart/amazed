@@ -18,6 +18,13 @@ typedef struct path_s {
     size_t current_room_number;
 } path_t;
 
+typedef struct info {
+    int robots;
+    int rooms;
+    int link;
+    int nb_rooms;
+} info_t;
+
 int amazed(void);
 
 #endif
