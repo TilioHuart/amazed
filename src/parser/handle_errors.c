@@ -8,6 +8,8 @@
 #include "my_macros.h"
 #include "map.h"
 #include "my.h"
+#include "amazed.h"
+#include "linked_list.h"
 #include <stdio.h>
 
 static int check_nb_robots(char **instruction)
@@ -25,11 +27,14 @@ static int check_nb_robots(char **instruction)
     return SUCCESS;
 }
 
-int handle_errors(map_t *map, char **instruction)
+int handle_errors(map_t *map, char **instruction, info_t *info)
 {
     if (instruction == NULL)
         return EPITECH_FAILURE;
     if (check_nb_robots(instruction) == FAILURE)
         return FAILURE;
+    for (int i = 1; instruction[i] != NULL && info->rooms != TRUE; i += 1)
+        if (adding_rooms(map, instruction[i], info) == FAILURE)
+            return FAILURE;
     return SUCCESS;
 }

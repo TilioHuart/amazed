@@ -44,7 +44,8 @@ SRC	=	my_find_prime_sup.c \
 		my_str_is_alpha_num.c	\
 		display_string_colored.c	\
 		clean_format.c	\
-		my_realloc.c
+		my_realloc.c	\
+		string_format.c
 
 CPPFLAGS	=	-I.
 
