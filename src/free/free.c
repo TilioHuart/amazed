@@ -13,11 +13,18 @@
 
 void free_map(map_t *map)
 {
+    map_t *current = map;
+    map_t *next;
+
     if (map == NULL)
         return;
-    if (map->name != NULL)
+    while (current != NULL) {
+        next = current->next;
+        for (int i = 0; map->name[i] != NULL; i += 1)
+            free(map->name[i]);
         free(map->name);
-    if (map->link != NULL)
-        free(map->link);
-    free(map);
+        free(map);
+        free(current);
+        current = next;
+    }
 }
