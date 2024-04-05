@@ -19,6 +19,12 @@ typedef struct room_queue_s {
     struct room_queue_s *next;
 } room_queue_t;
 
-int get_shortest_path(map_t *map, const char *end_room);
+typedef struct shortest_path_s {
+    map_t *room;
+    struct shortest_path_s *next;
+} shortest_path_t;
+
+int get_shortest_path(map_t *map, const char *end_room,
+    shortest_path_t **shortest_path);
 
 #endif
